@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2012, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2010-2011, Code Aurora Forum. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -11,7 +11,7 @@
  *
  */
 
-#include <media/msm/vidc_type.h>
+#include "vidc_type.h"
 #include "vcd.h"
 
 static const struct vcd_dev_state_table *vcd_dev_state_table[];
@@ -40,12 +40,16 @@ void vcd_do_device_state_transition(struct vcd_drv_ctxt *drv_ctxt,
 
 	state_ctxt = &drv_ctxt->dev_state;
 
-	if (state_ctxt->state == to_state) {
-		VCD_MSG_HIGH("Device already in requested to_state=%d",
-				 to_state);
+	/* HTC_START (klockwork issue)*/
+	if (state_ctxt->state) {
+		if (state_ctxt->state == to_state) {
+			VCD_MSG_HIGH("Device already in requested to_state=%d",
+					to_state);
 
-		return;
+			return;
+		}
 	}
+	/* HTC_END */
 
 	VCD_MSG_MED("vcd_do_device_state_transition: D%d -> D%d, for api %d",
 			(int)state_ctxt->state, (int)to_state, ev_code);

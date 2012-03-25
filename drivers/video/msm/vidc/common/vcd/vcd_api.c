@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2012, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2010-2011, Code Aurora Forum. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -11,7 +11,7 @@
  *
  */
 
-#include <media/msm/vidc_type.h>
+#include "vidc_type.h"
 #include "vcd.h"
 
 u32 vcd_init(struct vcd_init_config *config, s32 *driver_handle)
@@ -89,10 +89,7 @@ u32 vcd_open(s32 driver_handle, u32 decoding,
 
 		return VCD_ERR_ILLEGAL_PARM;
 	}
-	if (res_trk_check_for_sec_session() && vcd_get_num_of_clients()) {
-		VCD_MSG_ERROR("Secure session in progress");
-		return VCD_ERR_BAD_STATE;
-	}
+
 	drv_ctxt = vcd_get_drv_context();
 	mutex_lock(&drv_ctxt->dev_mutex);
 
